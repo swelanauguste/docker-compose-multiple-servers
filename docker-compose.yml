@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  web1:
+    build: ./app1
+    command: gunicorn cf.wsgi:application --bind 0.0.0.0:8001
+    volumes:
+      - ./app1/:/usr/src/app1/
+    expose:
+      - 8001
+    env_file:
+      - ./.env.dev
+  web2:
+    build: ./app2
+    command: gunicorn cf.wsgi:application --bind 0.0.0.0:8002
+    volumes:
+      - ./app2/:/usr/src/app2/
+    expose:
+      - 8002
+    env_file:
+      - ./.env.dev
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+      - 81:81
+    depends_on:
+      - web1
+      - web2
