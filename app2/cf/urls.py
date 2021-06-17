@@ -7,7 +7,8 @@ def index(request):
     return render(request, 'index.html', {'name':'Swelan Auguste app2'})
 
 urlpatterns = [
+    path("app2/", index),
     path('admin/', admin.site.urls),
-    path("", index),
+
 
 ]
